@@ -7,94 +7,33 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="{% static "functions.js" %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-	<script type="text/javascript">
-		$.ajaxSetup({ 
-	    	beforeSend: function(xhr, settings) {
-		        function getCookie(name) {
-		            var cookieValue = null;
-		            if (document.cookie && document.cookie != '') {
-		                var cookies = document.cookie.split(';');
-		                for (var i = 0; i < cookies.length; i++) {
-		                    var cookie = jQuery.trim(cookies[i]);
-			                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-			                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-			                    break;
-		                 	}
-	             		}
-		         	}
-		        return cookieValue;
-		        }
-		        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-		             // Only send the token to relative URLs i.e. locally.
-		             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	         	}
-	     	} 
-		});
-
-		var cur_day = 0;
-		function rollout(element) {
-			if (element.className != 'col-md-1 not_cur_month') {
-				console.log(element.className);
-				var day = element.childNodes[1].innerHTML;
-				cur_day = day;
-				$('.collapse').collapse('toggle');
-			} else return;
-		}
-
-		function addEvent(eventName) {
-			document.forms[0].appendChild(createPanel(eventName));
-		}
-
-		function delEvent (element) {
-			console.log(element);
-			element.parentNode.parentNode.parentNode.remove();
-		}
-
-		function createPanel (eventName) {
-			console.log(typeof eventName)
-			var panelNode = document.createElement('div');
-			var rowNode  = document.createElement('div');
-			var col7Node = document.createElement('div');
-			var col2Node = document.createElement('div');
-			var inputNode = document.createElement('input');
-			var buttonNode = document.createElement('button');
-			var labelNode = document.createElement('label');
-			panelNode.className = 'panel-body';
-			rowNode.className = 'row';
-			col7Node.className = 'col-md-7';
-			col2Node.className = 'col-md-2';
-			inputNode.className = 'form-control';
-			inputNode.id = 'event';
-			if (typeof eventName === 'undefined') {
-				inputNode.value = "";
-			} else {
-				inputNode.value = eventName;
-			}
-			buttonNode.setAttribute('onclick', 'delEvent(this)');
-			buttonNode.className = 'btn btn-primary btn-md';
-			buttonNode.id = 'del';
-			buttonNode.type = 'button';
-			buttonNode.textContent = 'Удалить';
-			labelNode.setAttribute('for', inputNode.id);
-			col2Node.appendChild(buttonNode);
-			col7Node.appendChild(inputNode);
-			rowNode.appendChild(col7Node);
-			rowNode.appendChild(col2Node);
-			panelNode.appendChild(labelNode);
-			panelNode.appendChild(rowNode);
-			return panelNode;
-		}
-
-		function getDateID () {
-			var year = document.getElementById("year").innerHTML;
-			var month = document.getElementById("month").innerHTML;
-			return cur_day + month + year;
-		}
-
-	</script>
 </head>
 <body>
 	{% block calendarapp %}{% endblock %}
+			<div class='collapse'>
+			<div class="panel panel-default col-md-7">
+				<div class="panel-header">
+					<h3>Список событий</h3>
+				</div>
+	  			<form role='form'>
+	  			{% csrf_token %}
+  				</form>
+  				<div class="panel-footer">
+  					<div class='btn-group btn-group-justified'>
+  						<div class='btn-group'>
+  							<button type='button' class="btn btn-primary btn-lg" id="cancel">Отмена</button>
+  						</div>
+  						<div class='btn-group'>
+  							<button type='button' class="btn btn-primary btn-lg" id="addevent" onclick="addEvent()">Добавить событие</button>
+  						</div>
+  						<div class='btn-group'>
+  							<button type='button' class="btn btn-primary btn-lg" id="save">Сохранить</button>
+  						</div>
+  					</div>
+  				</div>
+	  		</div>
+		</div>
 </body>
 </html>

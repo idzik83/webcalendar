@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.http import JsonResponse
 from datetime import date, timedelta
 from collections import OrderedDict
 from models import Date, Event
+import json
 
 class CalendarGenerator(object):
 	def __init__(self, tuple_date):
@@ -63,9 +65,59 @@ def month_calendar(events_list, cur_date = date.today()):
 	return month_dict
 
 def index(request, cur_date = date.today()):
-	date_list = Date.objects.filter(date__endswith=cur_date.month + cur_date.year)
+	date_idex = str(cur_date.month) + str(cur_date.year)
+	date_list = Date.objects.filter(date__endswith=date_idex)
 	date_index_list = []
 	for date in date_list:
 		date_index_list.append(date.date)
 	calendar = month_calendar(date_index_list)
 	return render(request, 'main.html', calendar)
+
+def get_event_list(request):
+	data = json.loads(request.body)
+	try:
+		date = Date.objects.get(date=data['date'])
+		events_list = Event.objects.filter(event_date=date)
+		events = []
+		for event in events_list:
+			curr_event = {}
+			curr_event['event'] = event.event
+			curr_event['event_id'] = event.id
+			events.append(curr_event)
+	except Date.DoesNotExist:
+		return JsonResponse([], safe=False)
+	return JsonResponse(events, safe=False)
+
+def save_events(request):
+	data = json.loads(request.body)
+	data_success = {}
+	for event in data['events']:
+		event_id = event['id']
+		if event_id == '':
+			event_id = 0
+		try:
+			dateObject = Date.objects.get(date=data['date_event'])
+			single_event = Event.objects.get(id=event_id)
+		except Date.DoesNotExist:
+			new_date = Date(date=data['date_event'])
+			new_date.save()
+			new_event = Event(event=event['event'], event_date=new_date)
+			new_event.save()
+		except Event.DoesNotExist:
+			new_event = Event(event=event['event'], event_date=dateObject)
+			new_event.save()
+		else:
+			single_event.event = event['event']
+			single_event.save()
+			data_success['Status'] = 'Success'
+	return JsonResponse(data_success, safe=False)
+
+def delete_event(request):
+	data = json.loads(request.body)
+	event_id = int(data['id'])
+	event = Event.objects.get(id=event_id)
+	event.delete()
+	dateObject = Date.objects.get(date=data['date'])
+	if not Event.objects.filter(event_date=dateObject).exists():
+		dateObject.delete()
+	return JsonResponse([], safe=False)

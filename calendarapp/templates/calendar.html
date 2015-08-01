@@ -35,7 +35,7 @@
 		var cur_day = 0;
 		function rollout(element) {
 			if (element.className != 'col-md-1 not_cur_month') {
-				console.log(element.className);
+				console.log(element.id);
 				var day = element.childNodes[1].innerHTML;
 				cur_day = day;
 				$('.collapse').collapse('toggle');
