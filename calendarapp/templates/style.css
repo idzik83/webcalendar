@@ -1,0 +1,25 @@
+.weekday {
+	display: inline-block;
+	border: solid;
+	border-radius: 5px;
+	border-color: #FFFFFF;
+	background-color: #CCFFCC;
+	cursor: pointer;
+}
+.weekend {
+	display: inline-block;
+	border: solid;
+	border-radius: 5px;
+	border-color: #FFFFFF;
+	background-color: #6699FF;
+	cursor: pointer;
+}
+
+.not_cur_month {
+	display: inline-block;
+	border: solid;
+	border-radius: 5px;
+	border-color: #FFFFFF;
+	background-color: #C2C2A3;
+	cursor: pointer;
+}

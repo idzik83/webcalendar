@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block calendarapp %}
+	<div class='container'>
+		<div class='row'>
+			<div class="col-md-7 text-center">
+				<h2 id='month'>{{month}}, {{year}}</h2>
+			</div>	
+		</div>
+		<div class='row'>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>ПН</h2>
+			</div>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>ВТ</h2>
+			</div>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>СР</h2>
+			</div>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>ЧТ</h2>
+			</div>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>ПТ</h2>
+			</div>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>CБ</h2>
+			</div>
+			<div class='col-md-1 day'>
+				<h2 class='text-center'>ВC</h2>
+			</div>
+		</div>
+		{% with week_row as week_list %}
+			{% for day_list in week_list %}
+			<div class='row'>
+				{% for day in day_list %}
+				<div class='col-md-1 {{day.class}}' id='{{day.id}}' onclick='rollout(this)'>
+				<h2 class='text-center'>{{day.day}}
+				{% if day.has_event == True %}
+					<span class="glyphicon glyphicon-list"></span>
+				{% endif %}
+				</h2>
+				</div>
+				{% endfor %}
+			</div>
+			{% endfor %}
+		{% endwith %}
+		<div class='collapse'>
+			<div class="panel panel-default col-md-8">
+	  			<form role='form'>
+		  			<div class="panel-body">
+	  					<label for="event">Событие</label>
+	  					<div class='row'>
+		  					<div class='col-md-7'>
+	  							<input type="text" class="form-control" id="event">
+	  						</div>
+	  						<div class='col-md-2'>
+	  							<button type='button' class="btn btn-primary btn-md" id="del">Удалить</button>
+	  						</div>
+						</div>
+	  				</div>
+  				</form>
+  				<div class="panel-footer">
+  					<div class='btn-group btn-group-justified'>
+  						<div class='btn-group'>
+  							<button type='button' class="btn btn-primary btn-lg" id="addevent">Добавить событие</button>
+  						</div>
+  						<div class='btn-group'>
+  							<button type='button' class="btn btn-primary btn-lg" id="save">Сохранить</button>
+  						</div>
+  					</div>
+  				</div>
+	  		</div>
+		</div>
+{% endblock %}
