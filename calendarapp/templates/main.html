@@ -2,30 +2,30 @@
 {% block calendarapp %}
 	<div class='container'>
 		<div class='row'>
-			<div class="col-md-7 text-center">
+			<div class="col-sm-7 text-center">
 				<h2 id='month'>{{month}}, {{year}}</h2>
 			</div>	
 		</div>
 		<div class='row'>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>ПН</h2>
 			</div>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>ВТ</h2>
 			</div>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>СР</h2>
 			</div>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>ЧТ</h2>
 			</div>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>ПТ</h2>
 			</div>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>CБ</h2>
 			</div>
-			<div class='col-md-1 day'>
+			<div class='col-sm-1 day'>
 				<h2 class='text-center'>ВC</h2>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 			{% for day_list in week_list %}
 			<div class='row'>
 				{% for day in day_list %}
-				<div class='col-md-1 {{day.class}}' id='{{day.id}}' onclick='rollout(this)'>
+				<div class='col-sm-1 {{day.class}}' id='{{day.id}}' onclick='rollout(this)'>
 				<h2 class='text-center'>{{day.day}}
 				{% if day.has_event == True %}
 					<span><p style="font-size:20px;font-stretch:ultra-condensed;display:inline;">&#9783</p></span>
