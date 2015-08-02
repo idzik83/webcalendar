@@ -66,25 +66,22 @@ $(document).ready(function() {
 var cur_id = 0;
 function rollout(element) {
 	clearForm();
-	var position = $('.collapse').position();
-	if (element.className != 'col-md-1 not_cur_month') {
-		cur_id = element.id
-		var day = element.childNodes[1].innerHTML;
-		data = {}
-		data['date'] = cur_id;
-		$.ajax({
-			type: 'POST',
-			url: 'geteventlist',
-			dataType: "json",
-			data: JSON.stringify(data),
-			success: function (data) {
-				$.each(data, function (index, argument) {
-					addEvent(argument['event'], argument['event_id']);
-				});
-				$('.collapse').collapse('toggle');
-			}
-		});
-	} else return;
+	cur_id = element.id
+	var day = element.childNodes[1].innerHTML;
+	data = {}
+	data['date'] = cur_id;
+	$.ajax({
+		type: 'POST',
+		url: 'geteventlist',
+		dataType: "json",
+		data: JSON.stringify(data),
+		success: function (data) {
+			$.each(data, function (index, argument) {
+				addEvent(argument['event'], argument['event_id']);
+			});
+			$('.collapse').collapse('toggle');
+		}
+	});
 }
 
 function clearForm() {
