@@ -1,0 +1,1 @@
+web: gunicorn RedWerk_recruiting.wsgi --log-file -
